@@ -4,24 +4,24 @@ import Button from './components/Button';
 import Display from './components/Display';
 
 const initialState = {
-  displayValue: '',
+  displayValue: '0',
   clearDisplay: false,
   operation: null,
   values: [0, 0],
   current: 0,
 };
 
-class App extends Component {
+export default class App extends Component {
   state = {
     ...initialState,
   };
 
   addDigit = n => {
-    if (n === '.' && this.state.displayValue.includes('.')) {
-      return;
-    }
     const clearDisplay =
       this.state.displayValue === '0' || this.state.clearDisplay;
+    if (n === '.' && !clearDisplay && this.state.displayValue.includes('.')) {
+      return;
+    }
     const currentValue = clearDisplay ? '' : this.state.displayValue;
     const displayValue = currentValue + n;
     this.setState({ displayValue, clearDisplay: false });
@@ -42,7 +42,7 @@ class App extends Component {
       this.setState({ operation, current: 1, clearDisplay: true });
     } else {
       const equals = operation === '=';
-      const values = [...this, this.state.values];
+      const values = [...this.state.values];
       try {
         values[0] = eval(`${values[0]} ${this.state.operation} ${values[1]}`);
       } catch (err) {
@@ -51,10 +51,11 @@ class App extends Component {
 
       values[1] = 0;
       this.setState({
-        displayValue: values[0],
+        displayValue: `${values[0]}`,
         operation: equals ? null : operation,
         current: equals ? 0 : 1,
-        clearDisplay: !equals,
+        //clearDisplay: !equals,
+        clearDisplay: true,
         values,
       });
     }
@@ -62,7 +63,7 @@ class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#FFA500" barStyle="light-content" />
+        <StatusBar backgroundColor="#4682B4" barStyle="light-content" />
         <Display value={this.state.displayValue} />
         <View style={styles.buttons}>
           <Button label="AC" triple onClick={this.clearMemory} />
@@ -97,5 +98,3 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
 });
-
-export default App;

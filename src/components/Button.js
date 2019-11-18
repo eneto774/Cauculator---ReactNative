@@ -7,13 +7,13 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width / 4,
     width: Dimensions.get('window').width / 4,
     padding: 20,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#FFF',
     textAlign: 'center',
     borderWidth: 1,
-    borderColor: '#888',
+    borderColor: '#000',
   },
   operationButton: {
-    backgroundColor: '#FFA500',
+    backgroundColor: '#4682B4',
     color: '#FFF',
   },
   buttonDouble: {
